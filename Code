@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accounting Office Queue</title>
+<style>
+  :root {
+    --ink: #1c1f26;
+    --paper: #f6f3ec;
+    --paper-dim: #ece7db;
+    --amber: #c8862a;
+    --amber-deep: #9c631a;
+    --line: #d8d1bf;
+    --green: #3f6b4a;
+    --red: #a8402f;
+    --font-display: 'Courier New', ui-monospace, monospace;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --ink: #ece7db;
+      --paper: #1c1f26;
+      --paper-dim: #262a33;
+      --line: #3a3f4a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #ece7db;
+    --paper: #1c1f26;
+    --paper-dim: #262a33;
+    --line: #3a3f4a;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    transition: background 0.2s ease;
+  }
+
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    font-family: var(--font-display);
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+  .brand b { font-weight: 700; }
+
+  .toggle {
+    display: flex;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .toggle button {
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    padding: 7px 16px;
+    font-size: 13px;
+    font-family: var(--font-body);
+    cursor: pointer;
+  }
+  .toggle button.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ---- Customer view ---- */
+  .kiosk {
+    background: var(--paper-dim);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 36px 28px;
+    text-align: center;
+  }
+
+  .service-select {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .service-select button {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .service-select button.chosen {
+    border-color: var(--amber);
+    background: var(--amber);
+    color: #fff;
+  }
+
+  .join-btn {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 14px 32px;
+    font-size: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .join-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .ticket {
+    border: 2px dashed var(--line);
+    border-radius: 4px;
+    padding: 28px 20px;
+    background: var(--paper);
+  }
+  .ticket .num-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--amber-deep);
+    margin-bottom: 4px;
+  }
+  .ticket .num {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .ticket .status-line {
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+  .ticket .status-line.called {
+    color: var(--green);
+    font-weight: 600;
+  }
+  .position-row {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 4px;
+  }
+  .position-row div { text-align: center; }
+  .position-row .big { font-family: var(--font-display); font-size: 22px; }
+  .position-row .lbl { font-size: 11px; color: var(--ink); opacity: 0.6; }
+
+  .leave-btn {
+    margin-top: 20px;
+    background: transparent;
+    border: none;
+    color: var(--red);
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* ---- Staff view ---- */
+  .staff-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 18px;
+  }
+  .staff-header h2 { font-size: 16px; margin: 0; font-weight: 600; }
+  .waiting-count { font-size: 13px; opacity: 0.65; }
+
+  .now-serving {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    padding: 22px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .now-serving .label { font-size: 11px; letter-spacing: 1px; opacity: 0.7; margin-bottom: 4px; }
+  .now-serving .num { font-family: var(--font-display); font-size: 34px; font-weight: 700; }
+  .now-serving .service-tag { font-size: 13px; opacity: 0.8; }
+
+  .call-btn {
+    background: var(--amber);
+    color: #fff;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .call-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .queue-list {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .queue-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .queue-row:last-child { border-bottom: none; }
+  .queue-row .left { display: flex; align-items: center; gap: 12px; }
+  .queue-row .n { font-family: var(--font-display); font-weight: 700; width: 34px; }
+  .queue-row .svc { opacity: 0.65; font-size: 12px; }
+  .skip-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .empty-state {
+    padding: 34px 16px;
+    text-align: center;
+    opacity: 0.6;
+    font-size: 14px;
+  }
+
+  .reset-row { margin-top: 24px; text-align: right; }
+  .reset-row button {
+    background: transparent;
+    border: none;
+    color: var(--red);
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><b>Accounting Office</b> — queue demo</div>
+    <div class="toggle">
+      <button id="tabCustomer" class="active">Join queue</button>
+      <button id="tabStaff">Staff view</button>
+    </div>
+  </div>
+
+  <!-- CUSTOMER VIEW -->
+  <div id="viewCustomer" class="view active">
+    <div id="preJoin" class="kiosk">
+      <p style="margin: 0 0 16px; font-size: 14px; opacity: 0.75;">What are you here for today?</p>
+      <div class="service-select" id="serviceSelect"></div>
+      <button class="join-btn" id="joinBtn">Take a number</button>
+    </div>
+
+    <div id="postJoin" class="ticket" style="display:none;">
+      <div class="num-label">YOUR NUMBER</div>
+      <div class="num" id="myNum">A01</div>
+      <div class="status-line" id="myStatus">Waiting to be called</div>
+      <div class="position-row">
+        <div><div class="big" id="myPosition">—</div><div class="lbl">ahead of you</div></div>
+        <div><div class="big" id="myWait">—</div><div class="lbl">est. wait</div></div>
+      </div>
+      <button class="leave-btn" id="leaveBtn">Leave the queue</button>
+    </div>
+  </div>
+
+  <!-- STAFF VIEW -->
+  <div id="viewStaff" class="view">
+    <div class="staff-header">
+      <h2>Accounting window</h2>
+      <div class="waiting-count" id="waitingCount">0 waiting</div>
+    </div>
+
+    <div class="now-serving">
+      <div>
+        <div class="label">NOW SERVING</div>
+        <div class="num" id="servingNum">—</div>
+        <div class="service-tag" id="servingSvc"></div>
+      </div>
+      <button class="call-btn" id="callNextBtn">Call next</button>
+    </div>
+
+    <div class="queue-list" id="queueList"></div>
+
+    <div class="reset-row"><button id="resetBtn">Reset demo queue</button></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const STORE_KEY = 'queue-demo-state-v1';
+  const SERVICES = ['Enrollment', 'Tuition Payment', 'Uniform', 'Logo Printing'];
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return { nextNumber: 1, queue: [], serving: null, myTicket: null };
+  }
+  function saveState(s) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch (e) {}
+  }
+
+  let state = loadState();
+  let chosenService = SERVICES[0];
+
+  const els = {
+    tabCustomer: document.getElementById('tabCustomer'),
+    tabStaff: document.getElementById('tabStaff'),
+    viewCustomer: document.getElementById('viewCustomer'),
+    viewStaff: document.getElementById('viewStaff'),
+    serviceSelect: document.getElementById('serviceSelect'),
+    joinBtn: document.getElementById('joinBtn'),
+    preJoin: document.getElementById('preJoin'),
+    postJoin: document.getElementById('postJoin'),
+    myNum: document.getElementById('myNum'),
+    myStatus: document.getElementById('myStatus'),
+    myPosition: document.getElementById('myPosition'),
+    myWait: document.getElementById('myWait'),
+    leaveBtn: document.getElementById('leaveBtn'),
+    waitingCount: document.getElementById('waitingCount'),
+    servingNum: document.getElementById('servingNum'),
+    servingSvc: document.getElementById('servingSvc'),
+    callNextBtn: document.getElementById('callNextBtn'),
+    queueList: document.getElementById('queueList'),
+    resetBtn: document.getElementById('resetBtn'),
+  };
+
+  function ticketLabel(n) {
+    return 'A' + String(n).padStart(2, '0');
+  }
+
+  function renderServiceSelect() {
+    els.serviceSelect.innerHTML = '';
+    SERVICES.forEach(svc => {
+      const b = document.createElement('button');
+      b.textContent = svc;
+      if (svc === chosenService) b.classList.add('chosen');
+      b.addEventListener('click', () => { chosenService = svc; renderServiceSelect(); });
+      els.serviceSelect.appendChild(b);
+    });
+  }
+
+  function joinQueue() {
+    const ticket = {
+      id: state.nextNumber,
+      service: chosenService,
+      joinedAt: Date.now(),
+    };
+    state.nextNumber += 1;
+    state.queue.push(ticket);
+    state.myTicket = ticket.id;
+    saveState(state);
+    render();
+  }
+
+  function leaveQueue() {
+    state.queue = state.queue.filter(t => t.id !== state.myTicket);
+    state.myTicket = null;
+    saveState(state);
+    render();
+  }
+
+  function callNext() {
+    if (state.queue.length === 0) return;
+    const next = state.queue.shift();
+    state.serving = next;
+    saveState(state);
+    render();
+  }
+
+  function skipTicket(id) {
+    state.queue = state.queue.filter(t => t.id !== id);
+    saveState(state);
+    render();
+  }
+
+  function resetDemo() {
+    state = { nextNumber: 1, queue: [], serving: null, myTicket: null };
+    saveState(state);
+    render();
+  }
+
+  function estWaitMinutes(position) {
+    return Math.max(1, position * 4);
+  }
+
+  function render() {
+    // Customer view
+    const myTicket = state.myTicket
+      ? (state.queue.find(t => t.id === state.myTicket) ||
+         (state.serving && state.serving.id === state.myTicket ? state.serving : null))
+      : null;
+
+    if (myTicket) {
+      els.preJoin.style.display = 'none';
+      els.postJoin.style.display = 'block';
+      els.myNum.textContent = ticketLabel(myTicket.id);
+
+      const isServing = state.serving && state.serving.id === myTicket.id;
+      if (isServing) {
+        els.myStatus.textContent = "You're being served now";
+        els.myStatus.classList.add('called');
+        els.myPosition.textContent = '0';
+        els.myWait.textContent = 'now';
+      } else {
+        const position = state.queue.findIndex(t => t.id === myTicket.id);
+        els.myStatus.textContent = 'Waiting to be called';
+        els.myStatus.classList.remove('called');
+        els.myPosition.textContent = position >= 0 ? position : '—';
+        els.myWait.textContent = position >= 0 ? estWaitMinutes(position) + ' min' : '—';
+      }
+    } else {
+      els.preJoin.style.display = 'block';
+      els.postJoin.style.display = 'none';
+    }
+
+    // Staff view
+    els.waitingCount.textContent = state.queue.length + ' waiting';
+    if (state.serving) {
+      els.servingNum.textContent = ticketLabel(state.serving.id);
+      els.servingSvc.textContent = state.serving.service;
+    } else {
+      els.servingNum.textContent = '—';
+      els.servingSvc.textContent = '';
+    }
+    els.callNextBtn.disabled = state.queue.length === 0;
+
+    els.queueList.innerHTML = '';
+    if (state.queue.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.textContent = 'No one is waiting.';
+      els.queueList.appendChild(empty);
+    } else {
+      state.queue.forEach(t => {
+        const row = document.createElement('div');
+        row.className = 'queue-row';
+        row.innerHTML =
+          '<div class="left"><span class="n">' + ticketLabel(t.id) + '</span>' +
+          '<span class="svc">' + t.service + '</span></div>';
+        const skip = document.createElement('button');
+        skip.className = 'skip-btn';
+        skip.textContent = 'Remove';
+        skip.addEventListener('click', () => skipTicket(t.id));
+        row.appendChild(skip);
+        els.queueList.appendChild(row);
+      });
+    }
+  }
+
+  // Tab switching
+  els.tabCustomer.addEventListener('click', () => {
+    els.tabCustomer.classList.add('active');
+    els.tabStaff.classList.remove('active');
+    els.viewCustomer.classList.add('active');
+    els.viewStaff.classList.remove('active');
+  });
+  els.tabStaff.addEventListener('click', () => {
+    els.tabStaff.classList.add('active');
+    els.tabCustomer.classList.remove('active');
+    els.viewStaff.classList.add('active');
+    els.viewCustomer.classList.remove('active');
+  });
+
+  els.joinBtn.addEventListener('click', joinQueue);
+  els.leaveBtn.addEventListener('click', leaveQueue);
+  els.callNextBtn.addEventListener('click', callNext);
+  els.resetBtn.addEventListener('click', resetDemo);
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORE_KEY) {
+      state = loadState();
+      render();
+    }
+  });
+
+  renderServiceSelect();
+  render();
+})();
+</script>
+</body>
+</html>
+
