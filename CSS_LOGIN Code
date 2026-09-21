@@ -1,0 +1,184 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #4d0b14;
+}
+
+.container {
+    min-height: 100vh;
+    position: relative;
+    background:
+        linear-gradient(rgba(70, 5, 15, .78), rgba(70, 5, 15, .88)),
+        url("background.png") center/cover no-repeat;
+    color: white;
+    padding: 55px;
+}
+
+/* Header */
+.header {
+    position: absolute;
+    top: 45px;
+    right: 8%;
+}
+
+.header h2 {
+    font-size: 30px;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.header span {
+    font-size: 25px;
+}
+
+/* Left side */
+.left {
+    position: absolute;
+    left: 5%;
+    bottom: 7%;
+}
+
+.left h1 {
+    font-size: 55px;
+    line-height: 1.15;
+}
+
+.left p {
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+.login-box {
+    margin-top: 35px;
+    padding: 18px 30px;
+    width: 300px;
+    border: 1px solid white;
+    border-radius: 20px;
+    background: rgba(255,255,255,.08);
+}
+
+.login-box small {
+    font-size: 15px;
+}
+
+.login-box b {
+    font-size: 20px;
+    line-height: 2;
+}
+
+/* Sign up */
+.signup {
+    position: absolute;
+    right: 5%;
+    top: 15%;
+    width: 43%;
+    max-width: 650px;
+    padding: 40px;
+    border-radius: 22px;
+    background: rgba(255, 245, 245, .92);
+    color: #641522;
+    box-shadow: 0 10px 35px rgba(0,0,0,.3);
+}
+
+.user-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #711522;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    float: left;
+    margin-right: 20px;
+}
+
+.signup h1 {
+    font-size: 32px;
+    padding-top: 10px;
+}
+
+.signup p {
+    color: #666;
+    margin: 8px 0 25px;
+    line-height: 1.5;
+}
+
+.signup input {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    margin: 15px 0;
+    border: none;
+    border-radius: 15px;
+    background: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.signup button {
+    width: 100%;
+    padding: 17px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 12px;
+    background: #711522;
+    color: white;
+    font-size: 19px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.signup button:hover {
+    background: #8b1d2d;
+}
+
+.or {
+    text-align: center;
+    color: #999;
+    margin: 25px 0;
+}
+
+.account {
+    text-align: center;
+    margin: 0 !important;
+}
+
+.account b {
+    color: #711522;
+}
+
+/* Phone */
+@media (max-width: 800px) {
+
+    .container {
+        padding: 25px;
+    }
+
+    .header {
+        position: static;
+        margin-bottom: 30px;
+    }
+
+    .left {
+        position: static;
+        margin-bottom: 30px;
+    }
+
+    .left h1 {
+        font-size: 35px;
+    }
+
+    .signup {
+        position: static;
+        width: 100%;
+        max-width: none;
+    }
+}
