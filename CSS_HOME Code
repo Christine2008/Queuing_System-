@@ -1,0 +1,290 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f8f4f3;
+    color: #5d1622;
+}
+
+/* HEADER */
+header {
+    height: 120px;
+    background: #711522;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+.logo {
+    font-size: 42px;
+    margin-right: 25px;
+}
+
+header h1 {
+    font-size: 30px;
+    line-height: 1;
+}
+
+header h1 span {
+    font-size: 27px;
+}
+
+.date {
+    margin-left: auto;
+    font-size: 15px;
+}
+
+/* SIDEBAR */
+aside {
+    position: fixed;
+    left: 0;
+    top: 120px;
+    width: 290px;
+    height: calc(100vh - 120px);
+    background: #5d0d19;
+    padding: 28px 20px;
+}
+
+aside a {
+    display: block;
+    color: white;
+    padding: 18px 25px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    font-size: 17px;
+}
+
+aside a.active {
+    background: #8b3a46;
+}
+
+aside a:hover {
+    background: #7b2633;
+    cursor: pointer;
+}
+
+aside hr {
+    border: 0;
+    border-top: 1px solid #a55b65;
+    margin: 20px;
+}
+
+/* MAIN */
+main {
+    margin-left: 290px;
+    padding: 30px;
+}
+
+/* WELCOME */
+.welcome {
+    background: white;
+    border: 1px solid #ead8da;
+    border-radius: 18px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.cap {
+    width: 100px;
+    height: 100px;
+    background: #f3e4e5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+    margin-right: 30px;
+}
+
+.welcome h2 {
+    font-size: 30px;
+}
+
+.welcome p {
+    color: #777;
+    font-size: 20px;
+    margin-top: 8px;
+}
+
+/* STATS */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: #f8eeee;
+    border: 1px solid #ead8da;
+    border-radius: 15px;
+    padding: 20px 25px;
+}
+
+.card span {
+    display: flex;
+    background: #741725;
+    color: white;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 18px;
+}
+
+.card h2 {
+    font-size: 38px;
+    margin-top: 5px;
+}
+
+/* BOTTOM */
+.bottom {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+}
+
+.services,
+.actions {
+    background: white;
+    border: 1px solid #ead8da;
+    border-radius: 18px;
+    padding: 22px;
+}
+
+.services h2,
+.actions h2 {
+    margin-bottom: 20px;
+}
+
+/* SERVICES */
+.service-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.service-grid button {
+    border: none;
+    background: #f8eeee;
+    color: #5d1622;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+    font-size: 16px;
+    min-height: 85px;
+}
+
+.service-grid button b {
+    float: right;
+    font-size: 25px;
+}
+
+.service-grid button:hover {
+    background: #eddcdf;
+    cursor: pointer;
+}
+
+/* ACTIONS */
+.actions {
+    padding: 0 22px 22px;
+}
+
+.actions h2 {
+    background: #711522;
+    color: white;
+    padding: 20px;
+    margin: 0 -22px 20px;
+    border-radius: 15px 15px 0 0;
+}
+
+.actions button {
+    width: 100%;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.get {
+    border: none;
+    background: #711522;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.check {
+    border: 1px solid #711522;
+    background: white;
+    color: #711522;
+}
+
+.notice {
+    background: #f8eeee;
+    margin-top: 35px;
+    padding: 20px;
+    border-radius: 12px;
+    color: #666;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+
+    aside {
+        width: 200px;
+    }
+
+    main {
+        margin-left: 200px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .bottom {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 20px;
+    }
+
+    .date {
+        display: none;
+    }
+
+    aside {
+        display: none;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .stats,
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+}
