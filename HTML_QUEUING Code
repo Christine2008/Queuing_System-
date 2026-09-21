@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Queue Number</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🏛️</div>
+    <h1>Registrar<br><span>Queuing System</span></h1>
+    <div class="date">Sep 19, 2025 | 10:24 AM | 👤</div>
+</header>
+
+<aside>
+    <a>⌂ &nbsp; Home</a>
+    <a class="active">🎟️ &nbsp; Get Queue Number</a>
+    <a>⌕ &nbsp; Queue Status</a>
+    <a>▣ &nbsp; Services</a>
+    <a>👤 &nbsp; Profile</a>
+    <a>⚙ &nbsp; Settings</a>
+    <hr>
+    <a>⇥ &nbsp; Log Out</a>
+</aside>
+
+<main>
+
+    <div class="queue-box">
+
+        <h2>🎟️ &nbsp; Get Queue Number</h2>
+        <p>Select a service to get your queue number.</p>
+
+        <div class="services">
+
+            <button>📄 &nbsp; Request Transcript<br>of Records <b>›</b></button>
+
+            <button>📜 &nbsp; Request Certificate <b>›</b></button>
+
+            <button>👤 &nbsp; Enrollment /<br>Registration <b>›</b></button>
+
+            <button>💳 &nbsp; Payment / Assessment <b>›</b></button>
+
+            <button>📖 &nbsp; Request School<br>Records <b>›</b></button>
+
+            <button>••• &nbsp; Other Registrar<br>Concerns <b>›</b></button>
+
+        </div>
+
+        <div class="buttons">
+            <button class="get">🎟️ &nbsp; Get Queue Number</button>
+            <button class="cancel">Cancel</button>
+        </div>
+
+    </div>
+
+    <div class="preview">
+
+        <h2>Queue Preview</h2>
+
+        <div class="info">
+            🎟️
+            <span>Now Serving<br><b>A-025</b></span>
+        </div>
+
+        <div class="info">
+            👥
+            <span>People Waiting<br><b>12</b></span>
+        </div>
+
+        <div class="info">
+            🕐
+            <span>Estimated Wait<br><b>15 min</b></span>
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>
