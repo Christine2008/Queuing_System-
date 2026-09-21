@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Queuing System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+        <h1>Your documents,<br>our priority.</h1>
+        <p>Fast • Organized • Reliable</p>
+
+        <div class="login-box">
+            <small>Already have an account?</small>
+            <br>
+            <b>Log in →</b>
+        </div>
+    </div>
+
+    <div class="header">
+        <h2>Registrar<br><span>Queuing System</span></h2>
+    </div>
+
+    <div class="signup">
+        <div class="user-icon">👤</div>
+
+        <h1>Create Account</h1>
+        <p>Sign up to get your queue number and<br>
+        access our services.</p>
+
+        <input type="text" placeholder="👤  Full Name">
+        <input type="email" placeholder="✉  Email Address">
+        <input type="password" placeholder="🔒  Password">
+        <input type="password" placeholder="🔒  Confirm Password">
+
+        <button>Sign Up &nbsp; →</button>
+
+        <div class="or">──────── &nbsp; or &nbsp; ────────</div>
+
+        <p class="account">
+            Already have an account? <b>Log in</b>
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>
